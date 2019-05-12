@@ -1,5 +1,6 @@
 package com.example.springsocial.controller;
 
+import com.example.springsocial.dto.ArticleDto;
 import com.example.springsocial.model.Article;
 import com.example.springsocial.model.Dto;
 import com.example.springsocial.service.ArticleService;
@@ -35,7 +36,10 @@ public class ArticleController {
 
     @PostMapping(path = "/createArticle", consumes = "application/json", produces = "application/json")
     @PreAuthorize("hasRole('USER')")
-    public Article createArticle(){
-            return new Article();
+    public Article createArticle(@RequestBody ArticleDto dto){
+            Article a = new Article(dto);
+            Integer size = getArticlesCount();
+            a.setId((long)(size+1));
+            return new Article(dto);
     }
 }

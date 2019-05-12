@@ -65,7 +65,6 @@ public class Article implements Dto<ArticleDto> {
     }
 
     public Article(ArticleDto dto) {
-        this.id = dto.getId();
         this.name = dto.getName();
         this.created = convertToLocalDateTimeViaInstant(dto.getCreated());
         this.content = dto.getContent();
