@@ -38,8 +38,7 @@ public class ArticleController {
     @PreAuthorize("hasRole('USER')")
     public Article createArticle(@RequestBody ArticleDto dto){
             Article a = new Article(dto);
-            Integer size = getArticlesCount();
-            a.setId((long)(size+1));
-            return new Article(dto);
+            a.setId((long)(getArticlesCount()+1));
+            return a;
     }
 }
