@@ -18,6 +18,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import static com.example.springsocial.util.DateConverter.convertToLocalDateTimeViaInstant;
+
 @Data
 @Builder
 @AllArgsConstructor
@@ -60,5 +62,12 @@ public class Article implements Dto<ArticleDto> {
             .likes(Dto.toDtos(likes))
             .tags(Dto.toDtos(tags))
             .build();
+    }
+
+    public Article(ArticleDto dto) {
+        this.id = dto.getId();
+        this.name = dto.getName();
+        this.created = convertToLocalDateTimeViaInstant(dto.getCreated());
+        this.content = dto.getContent();
     }
 }

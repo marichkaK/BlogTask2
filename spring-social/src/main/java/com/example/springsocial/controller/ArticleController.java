@@ -35,7 +35,7 @@ public class ArticleController {
 
     @PostMapping(path = "/createArticle", consumes = "application/json", produces = "application/json")
     @PreAuthorize("hasRole('USER')")
-    public void createArticle(){
-
+    public Article createArticle(){
+            return new Article();
     }
 }
