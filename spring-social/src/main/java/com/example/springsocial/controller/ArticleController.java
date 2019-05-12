@@ -6,10 +6,7 @@ import com.example.springsocial.service.ArticleService;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/articles")
@@ -34,5 +31,11 @@ public class ArticleController {
     @PreAuthorize("hasRole('USER')")
     public Integer getArticlesCount() {
         return articleService.getArticlesCount();
+    }
+
+    @PostMapping(path = "/createArticle", consumes = "application/json", produces = "application/json")
+    @PreAuthorize("hasRole('USER')")
+    public void createArticle(){
+
     }
 }
