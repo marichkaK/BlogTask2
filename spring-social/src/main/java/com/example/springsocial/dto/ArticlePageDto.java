@@ -1,6 +1,5 @@
 package com.example.springsocial.dto;
 
-import java.util.Date;
 import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -11,13 +10,8 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class ArticleDto {
+public class ArticlePageDto {
 
-    private Long id;
-    private UserDto owner;
-    private String name;
-    private String content;
-    private Date created;
-    private List<?> likes;
-    private List<?> tags;
+    private Long total;
+    private List<?> articles;
 }

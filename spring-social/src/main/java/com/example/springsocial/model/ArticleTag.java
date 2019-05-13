@@ -30,6 +30,10 @@ public class ArticleTag implements Dto<ArticleTagDto> {
     @Column(name = "name", nullable = false)
     private String name;
 
+    public ArticleTag(String name) {
+        this.name = name;
+    }
+
     @Override
     public ArticleTagDto toDto() {
         return ArticleTagDto.builder()

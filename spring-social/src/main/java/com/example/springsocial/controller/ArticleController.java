@@ -1,15 +1,23 @@
 package com.example.springsocial.controller;
 
 import com.example.springsocial.dto.ArticleDto;
+import com.example.springsocial.dto.ArticlePageDto;
+import com.example.springsocial.dto.NewArticleDto;
 import com.example.springsocial.model.Article;
 import com.example.springsocial.model.Dto;
 import com.example.springsocial.service.ArticleService;
-import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
+@PreAuthorize("hasRole('USER')")
 @RequestMapping("/articles")
 public class ArticleController {
 
@@ -20,25 +28,17 @@ public class ArticleController {
         this.articleService = articleService;
     }
 
-    @GetMapping("/{startNumber}/{endNumber}")
-    @PreAuthorize("hasRole('USER')")
-    public List<?> getArticles(@PathVariable Long startNumber, @PathVariable Long endNumber) {
-        List<Article> articles = articleService.getArticles(startNumber, endNumber);
+    @GetMapping("/{page}/{size}")
+    public ArticlePageDto getArticles(@PathVariable Integer page, @PathVariable Integer size) {
+        Page<Article> articlePage = articleService.getArticles(page, size);
 
-        return Dto.toDtos(articles);
+        return new ArticlePageDto(articlePage.getTotalElements(), Dto.toDtos(articlePage.getContent()));
     }
 
-    @GetMapping("/count")
-    @PreAuthorize("hasRole('USER')")
-    public Integer getArticlesCount() {
-        return articleService.getArticlesCount();
-    }
+    @PostMapping
+    public ArticleDto createArticle(@RequestBody NewArticleDto dto) {
+        Article article = articleService.createArticle(dto);
 
-    @PostMapping(path = "/createArticle", consumes = "application/json", produces = "application/json")
-    @PreAuthorize("hasRole('USER')")
-    public Article createArticle(@RequestBody ArticleDto dto){
-            Article a = new Article(dto);
-            a.setId((long)(getArticlesCount()+1));
-            return a;
+        return article.toDto();
     }
 }
