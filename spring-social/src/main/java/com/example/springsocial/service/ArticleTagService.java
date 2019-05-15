@@ -4,7 +4,7 @@ import com.example.springsocial.model.ArticleTag;
 import com.example.springsocial.repository.ArticleTagRepository;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.function.Function;
 import java.util.stream.Collectors;
@@ -34,5 +34,10 @@ public class ArticleTagService {
             .collect(Collectors.toList());
 
         return articleTagRepository.saveAll(tags);
+    }
+
+    public ArticleTag findByName(String tag) {
+        return articleTagRepository.findByName(tag)
+            .orElseThrow(NoSuchElementException::new);
     }
 }

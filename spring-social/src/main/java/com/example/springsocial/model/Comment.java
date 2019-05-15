@@ -1,19 +1,17 @@
 package com.example.springsocial.model;
 
-import com.example.springsocial.dto.ArticleDto;
+import com.example.springsocial.dto.CommentDto;
+import com.example.springsocial.dto.UserDto;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.Date;
-import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.PrePersist;
 import javax.persistence.Table;
 import lombok.AllArgsConstructor;
@@ -26,38 +24,29 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "article")
-public class Article implements Dto<ArticleDto> {
+@Table(name = "comment")
+public class Comment implements Dto<CommentDto> {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @ManyToOne
+    @JoinColumn(name = "article_id", nullable = false)
+    private Article article;
+
+    @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
-    @Column(name = "name", nullable = false)
-    private String name;
-
-    @Column(name = "content", length = 2048)
-    private String content;
+    @Column(name = "text", nullable = false)
+    private String text;
 
     @Column(name = "created", nullable = false)
     private LocalDateTime created;
 
-    @OneToMany(mappedBy = "article")
-    private List<Comment> comments;
-
-    @ManyToMany
-    private List<ArticleTag> tags;
-
-    @OneToMany(mappedBy = "article")
-    private List<ArticleLike> likes;
-
-    public Article(String name, String content) {
-        this.name = name;
-        this.content = content;
+    public Comment(String text) {
+        this.text = text;
     }
 
     @PrePersist
@@ -66,16 +55,12 @@ public class Article implements Dto<ArticleDto> {
     }
 
     @Override
-    public ArticleDto toDto() {
-        return ArticleDto.builder()
+    public CommentDto toDto() {
+        return CommentDto.builder()
             .id(id)
-            .name(name)
-            .owner(user.toDto())
-            .content(content)
+            .user(user.toDto())
+            .text(text)
             .created(Date.from(created.atZone(ZoneId.systemDefault()).toInstant()))
-            .comments(Dto.toDtos(comments))
-            .likes(Dto.toDtos(likes))
-            .tags(Dto.toDtos(tags))
             .build();
     }
 }

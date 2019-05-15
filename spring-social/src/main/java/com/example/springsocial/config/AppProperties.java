@@ -12,6 +12,7 @@ public class AppProperties {
 
     private final Auth auth = new Auth();
     private final OAuth2 oauth2 = new OAuth2();
+    private final Smtp smtp = new Smtp();
 
     @Data
     public static class Auth {
@@ -32,5 +33,12 @@ public class AppProperties {
             this.authorizedRedirectUris = authorizedRedirectUris;
             return this;
         }
+    }
+
+    @Data
+    public static class Smtp {
+
+        private String username;
+        private String password;
     }
 }

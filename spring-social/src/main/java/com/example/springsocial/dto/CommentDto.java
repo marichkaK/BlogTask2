@@ -1,7 +1,7 @@
 package com.example.springsocial.dto;
 
+import com.example.springsocial.model.Comment;
 import java.util.Date;
-import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -11,14 +11,14 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class ArticleDto {
+public class CommentDto {
 
     private Long id;
-    private UserDto owner;
-    private String name;
-    private String content;
+    private UserDto user;
+    private String text;
     private Date created;
-    private List<?> comments;
-    private List<?> likes;
-    private List<?> tags;
+
+    public Comment toComment() {
+        return new Comment(text);
+    }
 }

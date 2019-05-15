@@ -56,3 +56,7 @@ app:
       - http://localhost:3000/oauth2/redirect
       - myandroidapp://oauth2/redirect
       - myiosapp://oauth2/redirect
+  smtp:
+    username: maria199881@gmail.com
+    password: MOHsjzVB2icd7rsPFCo+RQ==:9Kov4r+Q9JDWWXxAKAUJEw==
+
